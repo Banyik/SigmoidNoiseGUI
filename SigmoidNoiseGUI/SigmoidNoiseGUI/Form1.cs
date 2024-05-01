@@ -49,7 +49,7 @@ namespace SigmoidNoiseGUI
 
         private void Generate()
         {
-            if (randomSeedCheckBox.Checked)
+            if (randomSeedCheckBox.Checked || seedBox.Text == string.Empty)
             {
                 seedBox.Text = rnd.Next(int.MinValue, int.MaxValue).ToString();
             }
@@ -263,6 +263,47 @@ namespace SigmoidNoiseGUI
             {
 
             }
+        }
+
+        private void graphCanvas_Paint(object sender, PaintEventArgs e)
+        {
+            e.Graphics.DrawLine(Pens.Black, new Point(0, graphCanvas.Height / 2), new Point(graphCanvas.Width, graphCanvas.Height / 2));
+            e.Graphics.DrawLine(Pens.Black, new Point(graphCanvas.Width / 2, 0), new Point(graphCanvas.Width / 2, graphCanvas.Height));
+        }
+
+        void DrawSigmoid(int type, Brush color, PaintEventArgs e)
+        {
+            float scaleX = 0.1f;
+
+            for (float i = -graphCanvas.Width / (2f * scaleX); i < graphCanvas.Width / (2f * scaleX); i += 0.1f)
+            {
+                float x = i * scaleX;
+                float y;
+                switch (type)
+                {
+                    case 1:
+                        y = 0.5f + ((x / 2f) / (1f + Math.Abs(x)));
+                        break;
+                    default:
+                        y = 0;
+                        break;
+                }
+                
+                float adjustedY = (graphCanvas.Height - 1) - (graphCanvas.Height - 1) * y;
+                e.Graphics.FillRectangle(color, i + graphCanvas.Width / 2f, adjustedY, 1, 1);
+            }
+        }
+
+        private void showFirstFunction_CheckedChanged(object sender, EventArgs e)
+        {
+            if(showFirstFunction.Checked)
+                graphCanvas.Invalidate();
+        }
+
+        private void showSecondFunction_CheckedChanged(object sender, EventArgs e)
+        {
+            if(showSecondFunction.Checked)
+                graphCanvas.Invalidate();
         }
     }
 }

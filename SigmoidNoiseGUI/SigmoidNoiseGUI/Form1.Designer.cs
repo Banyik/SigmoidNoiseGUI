@@ -49,12 +49,14 @@
             this.showFirstFunction = new System.Windows.Forms.CheckBox();
             this.showSecondFunction = new System.Windows.Forms.CheckBox();
             this.generateButton = new System.Windows.Forms.Button();
+            this.graphCanvas = new System.Windows.Forms.PictureBox();
             ((System.ComponentModel.ISupportInitialize)(this.canvas)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.xySize)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.repetition)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.smoothness)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.xStart)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.yStart)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.graphCanvas)).BeginInit();
             this.SuspendLayout();
             // 
             // canvas
@@ -118,7 +120,7 @@
             this.xySize.Size = new System.Drawing.Size(120, 22);
             this.xySize.TabIndex = 6;
             this.xySize.Value = new decimal(new int[] {
-            5,
+            425,
             0,
             0,
             0});
@@ -288,6 +290,7 @@
             this.showFirstFunction.TabIndex = 19;
             this.showFirstFunction.Text = "Show";
             this.showFirstFunction.UseVisualStyleBackColor = true;
+            this.showFirstFunction.CheckedChanged += new System.EventHandler(this.showFirstFunction_CheckedChanged);
             // 
             // showSecondFunction
             // 
@@ -298,22 +301,33 @@
             this.showSecondFunction.TabIndex = 20;
             this.showSecondFunction.Text = "Show";
             this.showSecondFunction.UseVisualStyleBackColor = true;
+            this.showSecondFunction.CheckedChanged += new System.EventHandler(this.showSecondFunction_CheckedChanged);
             // 
             // generateButton
             // 
             this.generateButton.Location = new System.Drawing.Point(443, 414);
             this.generateButton.Name = "generateButton";
-            this.generateButton.Size = new System.Drawing.Size(75, 23);
+            this.generateButton.Size = new System.Drawing.Size(89, 23);
             this.generateButton.TabIndex = 21;
             this.generateButton.Text = "Generate";
             this.generateButton.UseVisualStyleBackColor = true;
             this.generateButton.Click += new System.EventHandler(this.generateButton_Click);
             // 
+            // graphCanvas
+            // 
+            this.graphCanvas.Location = new System.Drawing.Point(778, 15);
+            this.graphCanvas.Name = "graphCanvas";
+            this.graphCanvas.Size = new System.Drawing.Size(517, 251);
+            this.graphCanvas.TabIndex = 22;
+            this.graphCanvas.TabStop = false;
+            this.graphCanvas.Paint += new System.Windows.Forms.PaintEventHandler(this.graphCanvas_Paint);
+            // 
             // SN
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(800, 450);
+            this.ClientSize = new System.Drawing.Size(1307, 450);
+            this.Controls.Add(this.graphCanvas);
             this.Controls.Add(this.generateButton);
             this.Controls.Add(this.showSecondFunction);
             this.Controls.Add(this.showFirstFunction);
@@ -343,6 +357,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.smoothness)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.xStart)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.yStart)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.graphCanvas)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -371,6 +386,7 @@
         private System.Windows.Forms.CheckBox showFirstFunction;
         private System.Windows.Forms.CheckBox showSecondFunction;
         private System.Windows.Forms.Button generateButton;
+        private System.Windows.Forms.PictureBox graphCanvas;
     }
 }
 
