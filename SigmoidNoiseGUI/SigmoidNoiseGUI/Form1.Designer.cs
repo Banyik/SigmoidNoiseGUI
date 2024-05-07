@@ -43,13 +43,13 @@
             this.label5 = new System.Windows.Forms.Label();
             this.yStart = new System.Windows.Forms.NumericUpDown();
             this.label6 = new System.Windows.Forms.Label();
-            this.firstSigmoidFunction = new System.Windows.Forms.TextBox();
             this.label7 = new System.Windows.Forms.Label();
-            this.secondSigmoidFunction = new System.Windows.Forms.TextBox();
             this.showFirstFunction = new System.Windows.Forms.CheckBox();
             this.showSecondFunction = new System.Windows.Forms.CheckBox();
             this.generateButton = new System.Windows.Forms.Button();
             this.graphCanvas = new System.Windows.Forms.PictureBox();
+            this.firstFunctionNumeric = new System.Windows.Forms.NumericUpDown();
+            this.secondFunctionNumeric = new System.Windows.Forms.NumericUpDown();
             ((System.ComponentModel.ISupportInitialize)(this.canvas)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.xySize)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.repetition)).BeginInit();
@@ -57,6 +57,8 @@
             ((System.ComponentModel.ISupportInitialize)(this.xStart)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.yStart)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.graphCanvas)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.firstFunctionNumeric)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.secondFunctionNumeric)).BeginInit();
             this.SuspendLayout();
             // 
             // canvas
@@ -258,13 +260,6 @@
             this.label6.TabIndex = 15;
             this.label6.Text = "1. Sigmoid Function";
             // 
-            // firstSigmoidFunction
-            // 
-            this.firstSigmoidFunction.Location = new System.Drawing.Point(572, 213);
-            this.firstSigmoidFunction.Name = "firstSigmoidFunction";
-            this.firstSigmoidFunction.Size = new System.Drawing.Size(100, 22);
-            this.firstSigmoidFunction.TabIndex = 16;
-            // 
             // label7
             // 
             this.label7.AutoSize = true;
@@ -273,13 +268,6 @@
             this.label7.Size = new System.Drawing.Size(123, 16);
             this.label7.TabIndex = 17;
             this.label7.Text = "2. Sigmoid Function";
-            // 
-            // secondSigmoidFunction
-            // 
-            this.secondSigmoidFunction.Location = new System.Drawing.Point(572, 244);
-            this.secondSigmoidFunction.Name = "secondSigmoidFunction";
-            this.secondSigmoidFunction.Size = new System.Drawing.Size(100, 22);
-            this.secondSigmoidFunction.TabIndex = 18;
             // 
             // showFirstFunction
             // 
@@ -322,18 +310,64 @@
             this.graphCanvas.TabStop = false;
             this.graphCanvas.Paint += new System.Windows.Forms.PaintEventHandler(this.graphCanvas_Paint);
             // 
+            // firstFunctionNumeric
+            // 
+            this.firstFunctionNumeric.Location = new System.Drawing.Point(572, 213);
+            this.firstFunctionNumeric.Maximum = new decimal(new int[] {
+            5,
+            0,
+            0,
+            0});
+            this.firstFunctionNumeric.Minimum = new decimal(new int[] {
+            1,
+            0,
+            0,
+            0});
+            this.firstFunctionNumeric.Name = "firstFunctionNumeric";
+            this.firstFunctionNumeric.Size = new System.Drawing.Size(100, 22);
+            this.firstFunctionNumeric.TabIndex = 23;
+            this.firstFunctionNumeric.Value = new decimal(new int[] {
+            1,
+            0,
+            0,
+            0});
+            this.firstFunctionNumeric.ValueChanged += new System.EventHandler(this.firstFunctionNumeric_ValueChanged);
+            // 
+            // secondFunctionNumeric
+            // 
+            this.secondFunctionNumeric.Location = new System.Drawing.Point(572, 244);
+            this.secondFunctionNumeric.Maximum = new decimal(new int[] {
+            5,
+            0,
+            0,
+            0});
+            this.secondFunctionNumeric.Minimum = new decimal(new int[] {
+            1,
+            0,
+            0,
+            0});
+            this.secondFunctionNumeric.Name = "secondFunctionNumeric";
+            this.secondFunctionNumeric.Size = new System.Drawing.Size(100, 22);
+            this.secondFunctionNumeric.TabIndex = 24;
+            this.secondFunctionNumeric.Value = new decimal(new int[] {
+            1,
+            0,
+            0,
+            0});
+            this.secondFunctionNumeric.ValueChanged += new System.EventHandler(this.secondFunctionNumeric_ValueChanged);
+            // 
             // SN
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1307, 450);
+            this.Controls.Add(this.secondFunctionNumeric);
+            this.Controls.Add(this.firstFunctionNumeric);
             this.Controls.Add(this.graphCanvas);
             this.Controls.Add(this.generateButton);
             this.Controls.Add(this.showSecondFunction);
             this.Controls.Add(this.showFirstFunction);
-            this.Controls.Add(this.secondSigmoidFunction);
             this.Controls.Add(this.label7);
-            this.Controls.Add(this.firstSigmoidFunction);
             this.Controls.Add(this.label6);
             this.Controls.Add(this.yStart);
             this.Controls.Add(this.label5);
@@ -358,6 +392,8 @@
             ((System.ComponentModel.ISupportInitialize)(this.xStart)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.yStart)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.graphCanvas)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.firstFunctionNumeric)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.secondFunctionNumeric)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -380,13 +416,13 @@
         private System.Windows.Forms.Label label5;
         private System.Windows.Forms.NumericUpDown yStart;
         private System.Windows.Forms.Label label6;
-        private System.Windows.Forms.TextBox firstSigmoidFunction;
         private System.Windows.Forms.Label label7;
-        private System.Windows.Forms.TextBox secondSigmoidFunction;
         private System.Windows.Forms.CheckBox showFirstFunction;
         private System.Windows.Forms.CheckBox showSecondFunction;
         private System.Windows.Forms.Button generateButton;
         private System.Windows.Forms.PictureBox graphCanvas;
+        private System.Windows.Forms.NumericUpDown firstFunctionNumeric;
+        private System.Windows.Forms.NumericUpDown secondFunctionNumeric;
     }
 }
 

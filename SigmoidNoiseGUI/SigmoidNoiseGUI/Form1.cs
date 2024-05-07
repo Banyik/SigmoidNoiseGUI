@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
+using System.Diagnostics;
 using System.Drawing;
 using System.Linq;
 using System.Linq.Expressions;
@@ -188,53 +189,26 @@ namespace SigmoidNoiseGUI
             return z;
         }
 
-        public double Sigmoid(double value, int function)
+        public double Sigmoid(double x, int function)
         {
-            //double k = Math.Exp(value);
-            //return Math.Round((k / (1.0f + k)));
-            return 0.5f + ((value / 2f) / (1f + Math.Abs(value)));
-            if(function == 1)
+            double y = 0;
+            switch (function)
             {
-                return Convert.ToDouble(GetExpressionValue(firstSigmoidFunction.Text, value));
+                case 1:
+                    y = 1 / (1 + Math.Pow(Math.Exp(1), -x));
+                    break;
+                case 2:
+                    y = 0.5f + ((x / 2f) / (1f + Math.Abs(x)));
+                    break;
+                case 3:
+                    y = 0.5f + ((x / 2) / (Math.Sqrt(0.05 + Math.Pow(x, 2))));
+                    break;
+                default:
+                    y = 0;
+                    break;
             }
-            else
-            {
-                return Convert.ToDouble(GetExpressionValue(secondSigmoidFunction.Text, value));
-            }
-            //0.5 + (value / 2 / Sqrt(0.15 + Pow(value, 2)));
+            return y;
 
-        }
-        object GetExpressionValue(string expression, double value)
-        {
-            expression = expression.Replace("value", value.ToString());
-            try
-            {
-                NCalc.Expression exp = new NCalc.Expression(expression);
-                exp.EvaluateFunction += delegate (string name, FunctionArgs args)
-                {
-                    if (name == "Sqrt")
-                    {
-                        double val = Convert.ToDouble(args.Parameters[0].Evaluate());
-                        args.Result = Math.Sqrt(val);
-                    }
-                    else if (name == "Pow")
-                    {
-                        double x = Convert.ToDouble(args.Parameters[0].Evaluate());
-                        double y = Convert.ToDouble(args.Parameters[1].Evaluate());
-                        args.Result = Math.Pow(x, y);
-                    }
-                    else if (name == "Abs")
-                    {
-                        double val = Convert.ToDouble(args.Parameters[0].Evaluate());
-                        args.Result = Math.Abs(val);
-                    }
-                };
-                return exp.Evaluate();
-            }
-            catch (Exception)
-            {
-                return 0;
-            }
         }
 
         private void generateButton_Click(object sender, EventArgs e)
@@ -246,7 +220,14 @@ namespace SigmoidNoiseGUI
         {
             if (showFirstFunction.Checked && showSecondFunction.Checked)
             {
-
+                for (int i = 0; i < mat1.GetLength(0); i++)
+                {
+                    for (int j = 0; j < mat1.GetLength(1); j++)
+                    {
+                        var brush = new SolidBrush(Color.FromArgb(255, 255-(int)(255 * Math.Abs(mat1[i, j] - mat2[i, j])*10), 0, 0));
+                        e.Graphics.FillRectangle(brush, i, j, 1, 1);
+                    }
+                }
             }
             else if (showFirstFunction.Checked)
             {
@@ -261,7 +242,14 @@ namespace SigmoidNoiseGUI
             }
             else if (showSecondFunction.Checked)
             {
-
+                for (int i = 0; i < mat1.GetLength(0); i++)
+                {
+                    for (int j = 0; j < mat1.GetLength(1); j++)
+                    {
+                        var brush = new SolidBrush(Color.FromArgb(255, (int)(255 * mat2[i, j]), (int)(255 * mat2[i, j]), (int)(255 * mat2[i, j])));
+                        e.Graphics.FillRectangle(brush, i, j, 1, 1);
+                    }
+                }
             }
         }
 
@@ -269,25 +257,18 @@ namespace SigmoidNoiseGUI
         {
             e.Graphics.DrawLine(Pens.Black, new Point(0, graphCanvas.Height / 2), new Point(graphCanvas.Width, graphCanvas.Height / 2));
             e.Graphics.DrawLine(Pens.Black, new Point(graphCanvas.Width / 2, 0), new Point(graphCanvas.Width / 2, graphCanvas.Height));
+            DrawSigmoid((int)firstFunctionNumeric.Value, Brushes.Blue, e);
+            DrawSigmoid((int)secondFunctionNumeric.Value, Brushes.Red, e);
         }
 
         void DrawSigmoid(int type, Brush color, PaintEventArgs e)
         {
-            float scaleX = 0.1f;
+            float scaleX = 0.025f;
 
             for (float i = -graphCanvas.Width / (2f * scaleX); i < graphCanvas.Width / (2f * scaleX); i += 0.1f)
             {
                 float x = i * scaleX;
-                float y;
-                switch (type)
-                {
-                    case 1:
-                        y = 0.5f + ((x / 2f) / (1f + Math.Abs(x)));
-                        break;
-                    default:
-                        y = 0;
-                        break;
-                }
+                float y = (float)Sigmoid(x, type);
                 
                 float adjustedY = (graphCanvas.Height - 1) - (graphCanvas.Height - 1) * y;
                 e.Graphics.FillRectangle(color, i + graphCanvas.Width / 2f, adjustedY, 1, 1);
@@ -304,6 +285,22 @@ namespace SigmoidNoiseGUI
         {
             if(showSecondFunction.Checked)
                 graphCanvas.Invalidate();
+        }
+
+        private void firstFunctionNumeric_ValueChanged(object sender, EventArgs e)
+        {
+            if (showFirstFunction.Checked)
+            {
+                graphCanvas.Invalidate();
+            }
+        }
+
+        private void secondFunctionNumeric_ValueChanged(object sender, EventArgs e)
+        {
+            if (showSecondFunction.Checked)
+            {
+                graphCanvas.Invalidate();
+            }
         }
     }
 }
