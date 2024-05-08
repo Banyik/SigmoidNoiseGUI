@@ -163,10 +163,13 @@ namespace SigmoidNoiseGUI
         {
             double x = (double)xStart.Value;
             double y = (double)yStart.Value;
+            currX += offsetX;
+            currY += offsetY;
             for (int i = 0; i < repetition.Value; i++)
             {
                 currX += offsetX / maxX;
                 currY -= offsetY / maxY;
+                
                 double ran = (currX + currY) * Math.PI;
                 if (ran == 0)
                 {
@@ -180,10 +183,10 @@ namespace SigmoidNoiseGUI
                 {
                     currY = 1;
                 }
-                x += Math.Sin((currX * offsetX * ran) / (double)repetition.Value * ran);
-                y += Math.Sin((currY * offsetY * ran) * (double)repetition.Value * ran);
+                x += Sigmoid(Math.Sin((currX * offsetX * ran) / (double)repetition.Value * ran),function);
+                y += Sigmoid(Math.Cos((currY * offsetY * ran) * (double)repetition.Value * ran),function);
             }
-            double value = (x + y) + Sigmoid(offsetX / maxX * (double)repetition.Value, function);
+            double value = Math.Cos(x + y) + Sigmoid(offsetX / maxX * (double)repetition.Value, function);
 
             double z = Sigmoid(value, function);
             return z;
@@ -224,7 +227,7 @@ namespace SigmoidNoiseGUI
                 {
                     for (int j = 0; j < mat1.GetLength(1); j++)
                     {
-                        var brush = new SolidBrush(Color.FromArgb(255, 255-(int)(255 * Math.Abs(mat1[i, j] - mat2[i, j])*10), 0, 0));
+                        var brush = new SolidBrush(Color.FromArgb(255, (int)(255 * Math.Abs(mat1[i, j] - mat2[i, j])), (int)(255 * Math.Abs(mat1[i, j] - mat2[i, j])), (int)(255 * Math.Abs(mat1[i, j] - mat2[i, j]))));
                         e.Graphics.FillRectangle(brush, i, j, 1, 1);
                     }
                 }
@@ -257,8 +260,10 @@ namespace SigmoidNoiseGUI
         {
             e.Graphics.DrawLine(Pens.Black, new Point(0, graphCanvas.Height / 2), new Point(graphCanvas.Width, graphCanvas.Height / 2));
             e.Graphics.DrawLine(Pens.Black, new Point(graphCanvas.Width / 2, 0), new Point(graphCanvas.Width / 2, graphCanvas.Height));
-            DrawSigmoid((int)firstFunctionNumeric.Value, Brushes.Blue, e);
-            DrawSigmoid((int)secondFunctionNumeric.Value, Brushes.Red, e);
+            if(showFirstFunction.Checked)
+                DrawSigmoid((int)firstFunctionNumeric.Value, Brushes.Blue, e);
+            if(showSecondFunction.Checked)
+                DrawSigmoid((int)secondFunctionNumeric.Value, Brushes.Red, e);
         }
 
         void DrawSigmoid(int type, Brush color, PaintEventArgs e)
@@ -277,30 +282,23 @@ namespace SigmoidNoiseGUI
 
         private void showFirstFunction_CheckedChanged(object sender, EventArgs e)
         {
-            if(showFirstFunction.Checked)
-                graphCanvas.Invalidate();
+            graphCanvas.Invalidate();
         }
 
         private void showSecondFunction_CheckedChanged(object sender, EventArgs e)
         {
-            if(showSecondFunction.Checked)
-                graphCanvas.Invalidate();
+            graphCanvas.Invalidate();
+
         }
 
         private void firstFunctionNumeric_ValueChanged(object sender, EventArgs e)
         {
-            if (showFirstFunction.Checked)
-            {
-                graphCanvas.Invalidate();
-            }
+            graphCanvas.Invalidate();
         }
 
         private void secondFunctionNumeric_ValueChanged(object sender, EventArgs e)
         {
-            if (showSecondFunction.Checked)
-            {
-                graphCanvas.Invalidate();
-            }
+            graphCanvas.Invalidate();
         }
     }
 }

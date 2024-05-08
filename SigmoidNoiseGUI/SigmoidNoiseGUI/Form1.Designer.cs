@@ -175,11 +175,6 @@
             0,
             0,
             0});
-            this.smoothness.Minimum = new decimal(new int[] {
-            1,
-            0,
-            0,
-            0});
             this.smoothness.Name = "smoothness";
             this.smoothness.Size = new System.Drawing.Size(120, 22);
             this.smoothness.TabIndex = 10;
